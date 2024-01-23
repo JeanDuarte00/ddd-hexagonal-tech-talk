@@ -1,6 +1,6 @@
-package org.example.domain.repository;
+package org.example.domain.rent.repository;
 
-import org.example.domain.model.Rent;
+import org.example.domain.rent.model.Rent;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;

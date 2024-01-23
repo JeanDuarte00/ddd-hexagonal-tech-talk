@@ -1,7 +1,7 @@
-package org.example.infrastructure.repository.mongo;
+package org.example.domain.rent.repository;
 
 import org.example.domain.rent.model.Rent;
-import org.example.domain.rent.repository.IRentRepository;
+import org.example.infrastructure.repository.mongo.IRentMongoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Component;
@@ -13,10 +13,10 @@ import java.util.UUID;
 @Component("MongoDatabase")
 public class RentMongoRepository implements IRentRepository {
 
-	private IMongoRepository repository;
+	private final IRentMongoRepository repository;
 	@Autowired
-	public RentMongoRepository (IMongoRepository orderRepository) {
-		this.repository = orderRepository;
+	public RentMongoRepository (IRentMongoRepository repository) {
+		this.repository = repository;
 	}
 
 	@Override

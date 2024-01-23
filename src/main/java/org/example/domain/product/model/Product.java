@@ -1,4 +1,4 @@
-package org.example.domain.rent.model;
+package org.example.domain.product.model;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -16,10 +16,18 @@ public class Product {
 	private BigDecimal price;
 	private String name;
 
+	public Product(BigDecimal price, String name) {
+		this(UUID.randomUUID(), price, name);
+	}
 	@JsonCreator
 	public Product(@JsonProperty("id") UUID id, @JsonProperty("price") BigDecimal price, @JsonProperty("name") String name) {
 		this.id = id;
 		this.price = price;
 		this.name = name;
+	}
+
+	public Product changePrice(BigDecimal newPrice){
+		this.price = newPrice;
+		return this;
 	}
 }

@@ -1,11 +1,13 @@
-package org.example.domain.model;
+package org.example.domain.rent.model;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.example.domain.exception.BusinessException;
+import org.example.domain.exception.InvalidOperationException;
+import org.example.domain.exception.NoOperationLeftException;
+import org.example.domain.exception.NotFoundException;
+import org.example.domain.product.model.Product;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
@@ -60,18 +62,18 @@ public class Rent {
 		return rentItems.stream()
 				.filter(orderItem -> orderItem.getRentId().equals(id))
 				.findFirst()
-				.orElseThrow(() -> new BusinessException("Product with " + id + " doesn't exist."));
+				.orElseThrow(() -> new NotFoundException("Product " + id + " is not in this Rent"));
 	}
 
 	private void validateState() {
 		if (RentStatus.isCompleted(status)) {
-			throw new BusinessException("The order is in completed state.");
+			throw new NoOperationLeftException("This rent is already completed.");
 		}
 	}
 
 	private void validateProduct(Product product) {
 		if (Objects.isNull(product)) {
-			throw new BusinessException("Invalid product value.");
+			throw new InvalidOperationException("Invalid product value.");
 		}
 	}
 }

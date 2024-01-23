@@ -4,10 +4,8 @@ import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
 @Getter
-public class BusinessException extends RuntimeException {
-
-	private HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
-	public BusinessException (String message) {
-		super(message);
+public class InternalServerException extends BusinessException {
+	public InternalServerException (String message) {
+		super(message, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

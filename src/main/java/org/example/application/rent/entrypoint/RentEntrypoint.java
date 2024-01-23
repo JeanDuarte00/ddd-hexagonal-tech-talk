@@ -1,12 +1,10 @@
-package org.example.application.entrypoint;
+package org.example.application.rent.entrypoint;
 
-import org.example.application.request.AddProductRequest;
-import org.example.application.request.CreateRentRequest;
-import org.example.application.response.CreateRentResponse;
+import org.example.application.rent.request.AddProductToRentRequest;
+import org.example.application.rent.request.CreateRentRequest;
 import org.example.domain.rent.api.IRentAPI;
 import org.example.domain.rent.model.Rent;
-import org.example.domain.rent.usecase.IRentService;
-import org.example.domain.rent.usecase.RentService;
+import org.example.domain.rent.usecase.IRentUsecase;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -26,54 +24,54 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/rents")
 public class RentEntrypoint implements IRentAPI<UUID> {
-	private IRentService rentService;
+	private IRentUsecase usecase;
 
 	@Autowired
-	public RentEntrypoint (RentService orderService) {
-		this.rentService = orderService;
+	public RentEntrypoint (IRentUsecase usecase) {
+		this.usecase = usecase;
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<CreateRentResponse> create(@RequestBody CreateRentRequest request) {
-		UUID response = rentService.createRent(request.getProducts());
-		return ResponseEntity.status(HttpStatus.CREATED).body(new CreateRentResponse(response));
+	public ResponseEntity<UUID> create(@RequestBody CreateRentRequest request) {
+		UUID response = usecase.createRent(request.getProducts());
+		return ResponseEntity.status(HttpStatus.CREATED).body(response);
 	}
 
 	@Override
 	@GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity get (UUID id) {
-		Rent response = rentService.get(id);
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+	public ResponseEntity get (@PathVariable UUID id) {
+		Rent response = usecase.get(id);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
 	@GetMapping(produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<Rent>> getAll(@RequestParam Integer page) {
-		List response = rentService.getAll(page);
-		return ResponseEntity.status(HttpStatus.CREATED).body(response);
+		List response = usecase.getAll(page);
+		return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
 
 	@PostMapping(value = "/{id}/product", consumes = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity addProduct(@PathVariable UUID id, @RequestBody AddProductRequest request) {
-		rentService.addProduct(id, request.getProduct());
+	public ResponseEntity addProduct(@PathVariable UUID id, @RequestBody AddProductToRentRequest request) {
+		usecase.addProduct(id, request.getProduct());
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 	@DeleteMapping(value = "/{id}/product")
 	public ResponseEntity deleteProduct(@PathVariable UUID id, @RequestParam UUID itemId) {
-		rentService.deleteProduct(id, itemId);
+		usecase.deleteProduct(id, itemId);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 	@Override
 	@DeleteMapping(value = "/{id}")
-	public ResponseEntity delete (UUID id) {
-		rentService.delete(id);
+	public ResponseEntity delete (@PathVariable UUID id) {
+		usecase.delete(id);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 
 	@PostMapping("/{id}/complete")
 	public ResponseEntity completeOrder(@PathVariable UUID id) {
-		rentService.completeRent(id);
+		usecase.completeRent(id);
 		return ResponseEntity.status(HttpStatus.OK).build();
 	}
 }

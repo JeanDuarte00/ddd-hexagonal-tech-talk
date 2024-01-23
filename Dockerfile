@@ -1,6 +1,6 @@
 
 FROM openjdk:17
-LABEL maintainer="Fractal"
+LABEL maintainer="Jean"
 EXPOSE 8989
-ADD target/party-app-service.jar party-app-service.jar
-ENTRYPOINT ["java","-jar","/party-app-service.jar"]
+ADD target/ddd-hexagonal-tech-talk.jar ddd-hexagonal-tech-talk.jar
+ENTRYPOINT ["java","-jar","/ddd-hexagonal-tech-talk.jar"]

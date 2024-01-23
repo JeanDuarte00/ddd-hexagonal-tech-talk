@@ -6,7 +6,7 @@ import org.example.domain.rent.model.Rent;
 import java.util.List;
 import java.util.UUID;
 
-public interface IRentService {
+public interface IRentUsecase {
 	UUID createRent (List<Product> product);
 
 	void addProduct (UUID id, Product product);

@@ -13,13 +13,13 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-public class RentService implements IRentService {
+public class RentUsecase implements IRentUsecase {
 
 	private final IRentRepository orderRepository;
-	private Integer pageSize;
+	private final Integer pageSize;
 
 	@Autowired
-	public RentService (IRentRepository orderRepository, @Value("${application.order.page-size}") Integer size) {
+	public RentUsecase (IRentRepository orderRepository, @Value("${application.order.page-size}") Integer size) {
 		this.orderRepository = orderRepository;
 		this.pageSize = size;
 	}
@@ -55,7 +55,7 @@ public class RentService implements IRentService {
 
 	@Override
 	public List<Rent> getAll (Integer page) {
-		var pageRequest = PageRequest.of(page, 10);
+		var pageRequest = PageRequest.of(page, pageSize);
 		return orderRepository.getAll(pageRequest);
 	}
 

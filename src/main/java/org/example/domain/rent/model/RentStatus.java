@@ -1,4 +1,4 @@
-package org.example.domain.model;
+package org.example.domain.rent.model;
 
 public enum RentStatus {
 	COMPLETED, CREATED;

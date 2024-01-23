@@ -3,14 +3,9 @@ version: '3.8'
 networks:
   databaseNetwork:
     driver: bridge
-  brokerNetwork:
-    driver: bridge
 
 volumes:
   mongodb:
-    driver: local
-  logs-folder:
-    name: ${log_rabbitmq_management}
     driver: local
 
 services:
@@ -49,17 +44,3 @@ services:
       - databaseNetwork
     ports:
       - "8083:8081"
-
-  rabbitmq:
-    image: rabbitmq:3-management
-    container_name: rabbitmq_management
-    restart: unless-stopped
-    ports:
-      - "5672:5672" # communication between the nodes and CLI tool
-      - "15672:15672" # communication with the web management API
-    volumes:
-      - ./docker_conf/rabbitmq/data/:/var/lib/rabbitmq/
-    env_file:
-      - ./environments/dev.env
-    networks:
-      - brokerNetwork

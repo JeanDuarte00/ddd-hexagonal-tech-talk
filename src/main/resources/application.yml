@@ -1,0 +1,47 @@
+server:
+    port: 8989
+
+spring:
+    application:
+        name: ddd-hexagonal-tech-talk
+    profiles:
+        active:
+    mvc:
+        pathmatch:
+            matching-strategy: ant_path_matcher
+    data:
+        mongodb:
+            host: localhost
+            port: 27017
+            database: orderDatabase
+            username: root
+            password: password
+            authentication-database: admin
+    datasource:
+            url: jdbc:postgresql://babar.db.elephantsql.com/attwvxyq
+            username: attwvxyq
+            password: iQpHTT8-G1o1FJuv2HI1M-wYE1DwvXG3
+            driver-class-name: org.postgresql.Driver
+    jpa:
+        jdbc:
+            repositories:
+                enabled: false
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+
+user:
+    region: br
+    language: pt
+
+management:
+    endpoints:
+        web:
+            exposure:
+                include: mappings
+
+application:
+    order:
+        page-size: 10
