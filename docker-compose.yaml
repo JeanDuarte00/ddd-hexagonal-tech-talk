@@ -12,7 +12,7 @@ services:
 
   mongo-database:
     image: mongo:6.0
-    container_name: party_app_mongo_database
+    container_name: mongo_database
     healthcheck:
       test: echo 'db.runCommand("ping").ok' | mongosh localhost:27017/test --quiet
       interval: 10s
@@ -31,7 +31,7 @@ services:
 
   mongo-express:
     image: mongo-express
-    container_name: party_app_mongo_express_ui
+    container_name: mongo_express_ui
     env_file:
       - ./environments/dev.env
     depends_on:
